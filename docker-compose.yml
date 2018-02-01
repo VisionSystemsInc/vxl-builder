@@ -1,0 +1,6 @@
+version: "2.3"
+services:
+  vxl:
+    image: vsiri/vxl:latest
+    build:
+      context: .
