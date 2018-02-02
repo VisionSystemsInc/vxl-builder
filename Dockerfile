@@ -31,7 +31,7 @@ RUN cd /usr/bin && \
 
 # Install git for circle ci
 RUN apt-get update; \
-    DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends git; \
+    DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends git ssh; \
     rm -rf /var/lib/apt/lists/*
 
 # #Similar to https://github.com/NVIDIA/nvidia-docker/pull/146, so we somehow hardcode libGL.so?
