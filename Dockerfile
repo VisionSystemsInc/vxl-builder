@@ -29,9 +29,14 @@ RUN cd /usr/bin && \
     curl -LO https://github.com/ninja-build/ninja/releases/download/v1.7.1/ninja-linux.zip && \
     unzip ninja-linux.zip && rm ninja-linux.zip
 
-#Similar to https://github.com/NVIDIA/nvidia-docker/pull/146, so we somehow hardcode libGL.so?
-RUN mkdir /vxl_hack && \
-    ln -s /usr/local/nvidia/lib64/libGL.so.1 /vxl_hack/libGL.so
+# Install git for circle ci
+RUN apt-get update; \
+    DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends git; \
+    rm -rf /var/lib/apt/lists/*
+
+# #Similar to https://github.com/NVIDIA/nvidia-docker/pull/146, so we somehow hardcode libGL.so?
+# RUN mkdir /vxl_hack && \
+#     ln -s /usr/local/nvidia/lib64/libGL.so.1 /vxl_hack/libGL.so
 
 LABEL com.nvidia.volumes.needed="nvidia_driver"
 ENV NVIDIA_VISIBLE_DEVICES=all \
