@@ -4,10 +4,19 @@ SHELL ["bash", "-euxvc"]
 
 RUN apt-get update; \
     DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
-        cmake python python-dev gcc g++ curl bzip2 rsync unzip ca-certificates \
+        python python-dev gcc g++ curl bzip2 rsync unzip ca-certificates \
         libglew1.10 libglu1-mesa libxmu6 libxi6 freeglut3 libgtk2.0-0 \
         libglew-dev libglu1-mesa-dev libxmu-dev libxi-dev freeglut3-dev libgtk2.0-dev; \
     rm -rf /var/lib/apt/lists/*
+
+ARG CMAKE_VERSION=3.11.0
+RUN cd /tmp; \
+    curl -sLO https://cmake.org/files/v${CMAKE_VERSION%.*}/cmake-${CMAKE_VERSION}-Linux-x86_64.tar.gz; \
+    curl -sLo cmake.txt https://cmake.org/files/v${CMAKE_VERSION%.*}/cmake-${CMAKE_VERSION}-SHA-256.txt; \
+    grep 'Linux-x86_64\.tar\.gz' cmake.txt | sha256sum -c - > /dev/null; \
+    tar xf cmake-${CMAKE_VERSION}-Linux-x86_64.tar.gz; \
+    mv cmake-${CMAKE_VERSION}-Linux-x86_64 /usr/local/cmake; \
+    rm cmake-${CMAKE_VERSION}-Linux-x86_64.tar.gz cmake.txt;
 
 RUN cd /tmp; \
     curl -LO http://www2.ati.com/drivers/linux-amd-14.41rc1-opencl2-sep19.zip --referer support.amd.com; \
