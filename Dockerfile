@@ -7,7 +7,7 @@ RUN apt-get update; \
         python python-dev gcc g++ curl bzip2 rsync unzip ca-certificates \
         libglew1.10 libglu1-mesa libxmu6 libxi6 freeglut3 libgtk2.0-0 \
         libglew-dev libglu1-mesa-dev libxmu-dev libxi-dev freeglut3-dev libgtk2.0-dev \
-        geotiff-bin; \
+        geotiff-bin libgeotiff-dev; \
     rm -rf /var/lib/apt/lists/*
 
 ARG CMAKE_VERSION=3.11.0
