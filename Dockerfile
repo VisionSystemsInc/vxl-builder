@@ -14,8 +14,7 @@ RUN cd /tmp; \
     curl -sLO https://cmake.org/files/v${CMAKE_VERSION%.*}/cmake-${CMAKE_VERSION}-Linux-x86_64.tar.gz; \
     curl -sLo cmake.txt https://cmake.org/files/v${CMAKE_VERSION%.*}/cmake-${CMAKE_VERSION}-SHA-256.txt; \
     grep 'Linux-x86_64\.tar\.gz' cmake.txt | sha256sum -c - > /dev/null; \
-    tar xf cmake-${CMAKE_VERSION}-Linux-x86_64.tar.gz; \
-    mv cmake-${CMAKE_VERSION}-Linux-x86_64 /usr/local/cmake; \
+    tar --strip-components=1 -xf cmake-${CMAKE_VERSION}-Linux-x86_64.tar.gz -C /usr/local; \
     rm cmake-${CMAKE_VERSION}-Linux-x86_64.tar.gz cmake.txt;
 
 RUN cd /tmp; \
