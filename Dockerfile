@@ -31,7 +31,7 @@ RUN cd /tmp; \
 
 RUN mkdir -p /usr/include/CL; \
     for x in opencl cl_platform cl cl_ext cl_gl cl_gl_ext; do \
-      curl -L -o "/usr/include/CL/${x}.h" "https://raw.githubusercontent.com/KhronosGroup/OpenCL-Headers/master/opencl20/CL/${x}.h"; \
+      curl -L -o "/usr/include/CL/${x}.h" "https://raw.githubusercontent.com/KhronosGroup/OpenCL-Headers/master/CL/${x}.h"; \
     done
 
 RUN cd /usr/bin && \
