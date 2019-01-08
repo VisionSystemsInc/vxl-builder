@@ -30,7 +30,7 @@ RUN cd /tmp; \
     ldconfig
 
 RUN mkdir -p /usr/include/CL; \
-    for x in opencl cl_platform cl cl_ext cl_gl cl_gl_ext; do \
+    for x in opencl cl_platform cl cl_ext cl_gl cl_gl_ext cl_version; do \
       curl -fLo "/usr/include/CL/${x}.h" "https://raw.githubusercontent.com/KhronosGroup/OpenCL-Headers/master/CL/${x}.h"; \
     done
 
