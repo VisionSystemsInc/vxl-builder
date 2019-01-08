@@ -4,13 +4,22 @@ SHELL ["bash", "-euxvc"]
 
 RUN apt-get update; \
     DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
-        cmake python python-dev gcc g++ curl bzip2 rsync unzip ca-certificates \
+        python python-dev gcc g++ curl bzip2 rsync unzip ca-certificates \
         libglew1.10 libglu1-mesa libxmu6 libxi6 freeglut3 libgtk2.0-0 \
-        libglew-dev libglu1-mesa-dev libxmu-dev libxi-dev freeglut3-dev libgtk2.0-dev; \
+        libglew-dev libglu1-mesa-dev libxmu-dev libxi-dev freeglut3-dev libgtk2.0-dev \
+        geotiff-bin libgeotiff-dev; \
     rm -rf /var/lib/apt/lists/*
 
+ARG CMAKE_VERSION=3.11.0
 RUN cd /tmp; \
-    curl -LO http://www2.ati.com/drivers/linux-amd-14.41rc1-opencl2-sep19.zip --referer support.amd.com; \
+    curl -fLO https://cmake.org/files/v${CMAKE_VERSION%.*}/cmake-${CMAKE_VERSION}-Linux-x86_64.tar.gz; \
+    curl -fLo cmake.txt https://cmake.org/files/v${CMAKE_VERSION%.*}/cmake-${CMAKE_VERSION}-SHA-256.txt; \
+    grep 'Linux-x86_64\.tar\.gz' cmake.txt | sha256sum -c - > /dev/null; \
+    tar --strip-components=1 -xf cmake-${CMAKE_VERSION}-Linux-x86_64.tar.gz -C /usr/local; \
+    rm cmake-${CMAKE_VERSION}-Linux-x86_64.tar.gz cmake.txt;
+
+RUN cd /tmp; \
+    curl -fLO http://www2.ati.com/drivers/linux-amd-14.41rc1-opencl2-sep19.zip --referer support.amd.com; \
     unzip -q linux-amd-14.41rc1-opencl2-sep19.zip; \
     rm linux-amd-14.41rc1-opencl2-sep19.zip; \
     sh fglrx-14.41/amd-driver-installer-14.41-x86.x86_64.run --extract /tmp/ati; \
@@ -21,12 +30,12 @@ RUN cd /tmp; \
     ldconfig
 
 RUN mkdir -p /usr/include/CL; \
-    for x in opencl cl_platform cl cl_ext cl_gl cl_gl_ext; do \
-      curl -L -o "/usr/include/CL/${x}.h" "https://raw.githubusercontent.com/KhronosGroup/OpenCL-Headers/master/opencl20/CL/${x}.h"; \
+    for x in opencl cl_platform cl cl_ext cl_gl cl_gl_ext cl_version; do \
+      curl -fLo "/usr/include/CL/${x}.h" "https://raw.githubusercontent.com/KhronosGroup/OpenCL-Headers/master/CL/${x}.h"; \
     done
 
 RUN cd /usr/bin && \
-    curl -LO https://github.com/ninja-build/ninja/releases/download/v1.7.1/ninja-linux.zip && \
+    curl -fLO https://github.com/ninja-build/ninja/releases/download/v1.7.1/ninja-linux.zip && \
     unzip ninja-linux.zip && rm ninja-linux.zip
 
 # Install git for circle ci
