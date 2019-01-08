@@ -12,14 +12,14 @@ RUN apt-get update; \
 
 ARG CMAKE_VERSION=3.11.0
 RUN cd /tmp; \
-    curl -sLO https://cmake.org/files/v${CMAKE_VERSION%.*}/cmake-${CMAKE_VERSION}-Linux-x86_64.tar.gz; \
-    curl -sLo cmake.txt https://cmake.org/files/v${CMAKE_VERSION%.*}/cmake-${CMAKE_VERSION}-SHA-256.txt; \
+    curl -fLO https://cmake.org/files/v${CMAKE_VERSION%.*}/cmake-${CMAKE_VERSION}-Linux-x86_64.tar.gz; \
+    curl -fLo cmake.txt https://cmake.org/files/v${CMAKE_VERSION%.*}/cmake-${CMAKE_VERSION}-SHA-256.txt; \
     grep 'Linux-x86_64\.tar\.gz' cmake.txt | sha256sum -c - > /dev/null; \
     tar --strip-components=1 -xf cmake-${CMAKE_VERSION}-Linux-x86_64.tar.gz -C /usr/local; \
     rm cmake-${CMAKE_VERSION}-Linux-x86_64.tar.gz cmake.txt;
 
 RUN cd /tmp; \
-    curl -LO http://www2.ati.com/drivers/linux-amd-14.41rc1-opencl2-sep19.zip --referer support.amd.com; \
+    curl -fLO http://www2.ati.com/drivers/linux-amd-14.41rc1-opencl2-sep19.zip --referer support.amd.com; \
     unzip -q linux-amd-14.41rc1-opencl2-sep19.zip; \
     rm linux-amd-14.41rc1-opencl2-sep19.zip; \
     sh fglrx-14.41/amd-driver-installer-14.41-x86.x86_64.run --extract /tmp/ati; \
@@ -31,11 +31,11 @@ RUN cd /tmp; \
 
 RUN mkdir -p /usr/include/CL; \
     for x in opencl cl_platform cl cl_ext cl_gl cl_gl_ext; do \
-      curl -L -o "/usr/include/CL/${x}.h" "https://raw.githubusercontent.com/KhronosGroup/OpenCL-Headers/master/CL/${x}.h"; \
+      curl -fLo "/usr/include/CL/${x}.h" "https://raw.githubusercontent.com/KhronosGroup/OpenCL-Headers/master/CL/${x}.h"; \
     done
 
 RUN cd /usr/bin && \
-    curl -LO https://github.com/ninja-build/ninja/releases/download/v1.7.1/ninja-linux.zip && \
+    curl -fLO https://github.com/ninja-build/ninja/releases/download/v1.7.1/ninja-linux.zip && \
     unzip ninja-linux.zip && rm ninja-linux.zip
 
 # Install git for circle ci
