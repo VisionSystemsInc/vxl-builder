@@ -1,11 +1,11 @@
-FROM debian:9
+FROM debian:11
 
 SHELL ["bash", "-euxvc"]
 
 RUN apt-get update; \
     DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
         python python-dev gcc g++ curl bzip2 rsync unzip ca-certificates \
-        libglew1.10 libglu1-mesa libxmu6 libxi6 freeglut3 libgtk2.0-0 \
+        libglew2.1 libglu1-mesa libxmu6 libxi6 freeglut3 libgtk2.0-0 \
         libglew-dev libglu1-mesa-dev libxmu-dev libxi-dev freeglut3-dev libgtk2.0-dev \
         geotiff-bin libgeotiff-dev; \
     rm -rf /var/lib/apt/lists/*
