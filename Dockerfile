@@ -10,7 +10,7 @@ RUN apt-get update; \
         geotiff-bin libgeotiff-dev; \
     rm -rf /var/lib/apt/lists/*
 
-ARG CMAKE_VERSION=3.11.0
+ARG CMAKE_VERSION=3.16.9
 RUN cd /tmp; \
     curl -fLO https://cmake.org/files/v${CMAKE_VERSION%.*}/cmake-${CMAKE_VERSION}-Linux-x86_64.tar.gz; \
     curl -fLo cmake.txt https://cmake.org/files/v${CMAKE_VERSION%.*}/cmake-${CMAKE_VERSION}-SHA-256.txt; \
